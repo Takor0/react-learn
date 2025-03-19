@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import './styles/App.scss';
 import TodoList from './components/TodoList';
 
@@ -12,6 +12,7 @@ export interface Todo {
 const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState('');
+  const [shouldJump, setShouldJump] = useState(false);
 
   const addTodo = () => {
     if (input.trim()) {
@@ -21,7 +22,21 @@ const App: React.FC = () => {
     }
   };
 
-  const toggleTodo = (id: number) => {
+  const memoListCount = useMemo(() => {
+    return todos.length;
+  }, [todos]);
+
+    useEffect(() => {
+        setShouldJump(true);
+        const timeoutId = setTimeout(() => {
+            setShouldJump(false);
+        }, 500);
+        return () => clearTimeout(timeoutId);
+    }, [memoListCount]);
+
+
+
+    const toggleTodo = (id: number) => {
     setTodos(
         todos.map(todo =>
             todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -35,13 +50,23 @@ const App: React.FC = () => {
 
   return (
       <div className="app">
-        <h1>Todo List</h1>
+        <h1>
+          Todo List
+          <span className="counter-container">
+            (
+              <span className={shouldJump ? 'counter-jump' : ''}>
+                {memoListCount}
+              </span>
+              )
+          </span>
+        </h1>
         <div className="todo-input">
           <input
               type="text"
               placeholder="Add new todo..."
               value={input}
               onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && addTodo()}
           />
           <button onClick={addTodo}>Add</button>
         </div>
