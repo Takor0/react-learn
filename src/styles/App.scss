@@ -1,0 +1,44 @@
+// src/styles/App.scss
+.app {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Helvetica Neue', sans-serif;
+
+  h1 {
+    margin-bottom: 1.5rem;
+  }
+
+  .todo-input {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    input {
+      width: 70%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #0056b3;
+      }
+    }
+  }
+}
