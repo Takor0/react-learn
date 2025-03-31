@@ -1,4 +1,5 @@
 import React from "react";
+import { Logger } from "sass";
 
 export type TableData = Record<string, string | number>;
 
@@ -23,8 +24,7 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = () => {
 
 const CTable: React.FC<CTableProps> = ({ columns, data, columnRenderers, children }) => {
   const overrideHeader: Record<string, (index: number) => React.ReactNode> = {}
-
-  React.Children.forEach(children, (child, index) => {
+  React.Children.forEach(children, (child) => {
     if (!React.isValidElement(child)) return
     if (child.type === ColumnHeader) {
       const {name, children: colChild} = child.props as ColumnHeaderProps
