@@ -2,11 +2,6 @@ import React from "react";
 
 export type TableData = Record<string, string | number>;
 
-// example renderer
-// const columnRenderer = {
-//   age: (column: string, row: TableData) => {
-//   return <span>{row[column]}</span>;
-//
 
 type ColumnRenderer = (column: string, row: TableData) => React.ReactNode;
 
