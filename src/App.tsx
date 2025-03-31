@@ -3,7 +3,6 @@ import CTodo from "./components/CTodo";
 import CTable, { ColumnHeader } from "./components/CTable";
 import { TableData } from "./components/CTable";
 
-
 const App: React.FC = () => {
   const columns: string[] = ["name", "age", "location"];
   const data: TableData[] = [
@@ -21,14 +20,16 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <CTodo/>
-      <CTable columns={columns} data={data} columnRenderers={
-        {
+      <CTodo />
+      <CTable
+        columns={columns}
+        data={data}
+        columnRenderers={{
           age: (column: string, row: TableData) => {
             return <span>{row[column]} GIIIT</span>;
           },
-        }
-      }>
+        }}
+      >
         <ColumnHeader name="location">
           {(index) => <span> {index} </span>}
         </ColumnHeader>

@@ -1,8 +1,6 @@
 import React from "react";
-import { Logger } from "sass";
 
 export type TableData = Record<string, string | number>;
-
 
 type ColumnRenderer = (column: string, row: TableData) => React.ReactNode;
 
@@ -20,39 +18,46 @@ interface ColumnHeaderProps {
 
 export const ColumnHeader: React.FC<ColumnHeaderProps> = () => {
   return null;
-}
+};
 
-const CTable: React.FC<CTableProps> = ({ columns, data, columnRenderers, children }) => {
-  const overrideHeader: Record<string, (index: number) => React.ReactNode> = {}
+const CTable: React.FC<CTableProps> = ({
+  columns,
+  data,
+  columnRenderers,
+  children,
+}) => {
+  const overrideHeader: Record<string, (index: number) => React.ReactNode> = {};
   React.Children.forEach(children, (child) => {
-    if (!React.isValidElement(child)) return
+    if (!React.isValidElement(child)) return;
     if (child.type === ColumnHeader) {
-      const {name, children: colChild} = child.props as ColumnHeaderProps
-      overrideHeader[name] = colChild
+      const { name, children: colChild } = child.props as ColumnHeaderProps;
+      overrideHeader[name] = colChild;
     }
   });
 
   return (
     <table>
       <thead>
-      {columns.map((column, index) => (
-        <th key={column}>
-          {overrideHeader?.[column] ? overrideHeader?.[column](index) : column}
-        </th>
-      ))}
+        {columns.map((column, index) => (
+          <th key={column}>
+            {overrideHeader?.[column]
+              ? overrideHeader?.[column](index)
+              : column}
+          </th>
+        ))}
       </thead>
       <tbody>
-      {data.map((row, rowIndex) => (
-        <tr key={rowIndex}>
-          {columns.map(column => (
-            <td key={column}>
-              {columnRenderers && columnRenderers[column]
-                ? columnRenderers[column](column, row)
-                : row[column]}
-            </td>
-          ))}
-        </tr>
-      ))}
+        {data.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {columns.map((column) => (
+              <td key={column}>
+                {columnRenderers && columnRenderers[column]
+                  ? columnRenderers[column](column, row)
+                  : row[column]}
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );
