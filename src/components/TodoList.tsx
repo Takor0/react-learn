@@ -1,6 +1,6 @@
 // src/components/TodoList.tsx
 import React from "react";
-import { Todo } from "../App";
+import { Todo } from "./CTodo";
 import TodoItem from "./TodoItem";
 import "../styles/TodoList.scss";
 

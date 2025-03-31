@@ -1,6 +1,6 @@
 // src/components/TodoItem.tsx
 import React, { useState } from "react";
-import { Todo } from "../App";
+import { Todo } from "./CTodo";
 import "../styles/TodoItem.scss";
 
 interface TodoItemProps {
