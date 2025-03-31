@@ -1,1 +1,0 @@
-### Example of how to handle dynamic overwrite component parts, similar to Vue's slots
