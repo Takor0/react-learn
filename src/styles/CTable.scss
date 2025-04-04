@@ -1,0 +1,41 @@
+.ctable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+
+  &__header {
+    background-color: #f4f4f4;
+
+    tr {
+      border-bottom: 2px solid #ddd;
+    }
+  }
+
+  &__header-cell {
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #ddd;
+  }
+
+  &__body {
+    tr {
+      border-bottom: 1px solid #eee;
+
+      &:nth-child(even) {
+        background-color: #fafafa;
+      }
+    }
+  }
+
+  &__row {
+    // Additional row styles can be added here if needed.
+  }
+
+  &__cell {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+}

@@ -1,39 +1,23 @@
 import React, { useState, useMemo, useEffect } from "react";
-import CTodo from "./components/CTodo";
-import CTable, { ColumnHeader } from "./components/CTable";
-import { TableData } from "./components/CTable";
+import VTodo from "./views/VTodo";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { VTable } from "./views/VTable";
 
 const App: React.FC = () => {
-  const columns: string[] = ["name", "age", "location"];
-  const data: TableData[] = [
-    {
-      name: "tom",
-      age: 25,
-      location: "Budapest",
-    },
-    {
-      name: "tom",
-      age: 234,
-      location: "Budapest",
-    },
-  ];
-
   return (
     <div className="app">
-      <CTodo />
-      <CTable
-        columns={columns}
-        data={data}
-        columnRenderers={{
-          age: (column: string, row: TableData) => {
-            return <span>{row[column]} GIIIT</span>;
-          },
-        }}
-      >
-        <ColumnHeader name="location">
-          {(index) => <span> {index} </span>}
-        </ColumnHeader>
-      </CTable>
+      <Router>
+        <div className="sidebar__container">
+          <nav className="sidebar">
+            <Link to="/todo">Todo</Link>
+            <Link to="/table">Table</Link>
+          </nav>
+        </div>
+        <Routes>
+          <Route path={"/todo"} element={<VTodo />} />
+          <Route path={"/table"} element={<VTable />} />
+        </Routes>
+      </Router>
     </div>
   );
 };

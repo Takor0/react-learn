@@ -1,7 +1,7 @@
 // src/components/TodoList.tsx
 import React from "react";
-import { Todo } from "./CTodo";
-import TodoItem from "./TodoItem";
+import { Todo } from "../views/VTodo";
+import CTodoItem from "./CTodoItem";
 import "../styles/TodoList.scss";
 
 interface TodoListProps {
@@ -11,7 +11,7 @@ interface TodoListProps {
   updateTodo: (id: number, newText: string) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({
+const CTodoList: React.FC<TodoListProps> = ({
   todos,
   toggleTodo,
   deleteTodo,
@@ -20,7 +20,7 @@ const TodoList: React.FC<TodoListProps> = ({
   return (
     <ul className="todo-list">
       {todos.map((todo) => (
-        <TodoItem
+        <CTodoItem
           key={todo.id}
           todo={todo}
           toggleTodo={toggleTodo}
@@ -32,4 +32,4 @@ const TodoList: React.FC<TodoListProps> = ({
   );
 };
 
-export default TodoList;
+export default CTodoList;

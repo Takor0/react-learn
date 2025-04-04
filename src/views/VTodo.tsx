@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useState, useMemo, useEffect } from "react";
 import "../styles/Todo.scss";
-import TodoList from "./TodoList";
+import CTodoList from "../components/CTodoList";
 
 export interface Todo {
   id: number;
@@ -9,7 +9,7 @@ export interface Todo {
   completed: boolean;
 }
 
-const CTodo: React.FC = () => {
+const VTodo: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState("");
   const [shouldJump, setShouldJump] = useState(false);
@@ -74,7 +74,7 @@ const CTodo: React.FC = () => {
         />
         <button onClick={addTodo}>Add</button>
       </div>
-      <TodoList
+      <CTodoList
         todos={todos}
         toggleTodo={toggleTodo}
         deleteTodo={deleteTodo}
@@ -84,4 +84,4 @@ const CTodo: React.FC = () => {
   );
 };
 
-export default CTodo;
+export default VTodo;

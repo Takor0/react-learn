@@ -1,6 +1,6 @@
 // src/components/TodoItem.tsx
 import React, { useState } from "react";
-import { Todo } from "./CTodo";
+import { Todo } from "../views/VTodo";
 import "../styles/TodoItem.scss";
 
 interface TodoItemProps {
@@ -10,7 +10,7 @@ interface TodoItemProps {
   updateTodo: (id: number, newText: string) => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({
+const CTodoItem: React.FC<TodoItemProps> = ({
   todo,
   toggleTodo,
   deleteTodo,
@@ -46,4 +46,4 @@ const TodoItem: React.FC<TodoItemProps> = ({
   );
 };
 
-export default TodoItem;
+export default CTodoItem;

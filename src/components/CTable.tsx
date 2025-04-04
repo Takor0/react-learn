@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/CTable.scss"; // Import the SCSS styles
 
 export type TableData = Record<string, string | number>;
 
@@ -36,21 +37,32 @@ const CTable: React.FC<CTableProps> = ({
   });
 
   return (
-    <table>
-      <thead>
-        {columns.map((column, index) => (
-          <th key={column}>
-            {overrideHeader?.[column]
-              ? overrideHeader?.[column](index)
-              : column}
-          </th>
-        ))}
+    <table className="ctable">
+      <thead className="ctable__header">
+        <tr>
+          {columns.map((column, index) => (
+            <th key={column} className="ctable__header-cell">
+              {overrideHeader?.[column]
+                ? overrideHeader[column](index)
+                : column}
+            </th>
+          ))}
+        </tr>
+        <tr>
+          {columns.map((column) => (
+            <th key={column} className="ctable__header-cell">
+              {overrideHeader?.[column]
+                ? overrideHeader[column](0)
+                : column}
+            </th>
+          ))}
+        </tr>
       </thead>
-      <tbody>
+      <tbody className="ctable__body">
         {data.map((row, rowIndex) => (
-          <tr key={rowIndex}>
+          <tr key={rowIndex} className="ctable__row">
             {columns.map((column) => (
-              <td key={column}>
+              <td key={column} className="ctable__cell">
                 {columnRenderers && columnRenderers[column]
                   ? columnRenderers[column](column, row)
                   : row[column]}
