@@ -1,12 +1,24 @@
-import React from "react";
-import "../styles/CTable.scss"; // Import the SCSS styles
+import React, { useEffect, useMemo, useState } from "react";
+import "../styles/CTable.scss";
+import { type } from "node:os";
+import CInput from "./CInput"; // Import the SCSS styles
 
 export type TableData = Record<string, string | number>;
 
 type ColumnRenderer = (column: string, row: TableData) => React.ReactNode;
 
+interface Column {
+  name: string;
+  renderer?: ColumnRenderer;
+  label?: string;
+  type?: string;
+  selectOptions?: string[];
+  filterable?: boolean;
+  sortable?: boolean;
+}
+
 interface CTableProps {
-  columns: string[];
+  columns: string[] | Column[];
   data: TableData[];
   columnRenderers?: Record<string, ColumnRenderer>;
   children?: React.ReactNode;
@@ -36,36 +48,66 @@ const CTable: React.FC<CTableProps> = ({
     }
   });
 
+  const [filters, setFilters] = useState<Record<string, any>>({});
+
+  const handleFilterChange = (column: string, value: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      [column]: value,
+    }));
+  };
+
+  const computedColumns: Column[] = useMemo(() => {
+    return columns.map((col) =>
+      typeof col === "string" ? { name: col } : col,
+    );
+  }, [columns]);
+
+  const filteredData: TableData[] = useMemo(() => {
+    return data.filter((row) => {
+      return Object.keys(filters).every((key) => {
+        const filterValue = filters[key];
+        if (!filterValue) return true;
+        const cellValue = row[key];
+        return String(cellValue)
+          .toLowerCase()
+          .includes(String(filterValue).toLowerCase());
+      });
+    });
+  }, [data, filters]);
+
   return (
     <table className="ctable">
       <thead className="ctable__header">
         <tr>
-          {columns.map((column, index) => (
-            <th key={column} className="ctable__header-cell">
-              {overrideHeader?.[column]
-                ? overrideHeader[column](index)
-                : column}
+          {computedColumns.map((column, index) => (
+            <th key={column.name} className="ctable__header-cell">
+              {overrideHeader?.[column.name]
+                ? overrideHeader[column.name](index)
+                : column.name}
             </th>
           ))}
         </tr>
         <tr>
-          {columns.map((column) => (
-            <th key={column} className="ctable__header-cell">
-              {overrideHeader?.[column]
-                ? overrideHeader[column](0)
-                : column}
+          {computedColumns.map((column) => (
+            <th key={column.name} className="ctable__header-cell">
+              <CInput
+                onChange={(v) =>
+                  handleFilterChange(column.name, v.target.value)
+                }
+              />
             </th>
           ))}
         </tr>
       </thead>
       <tbody className="ctable__body">
-        {data.map((row, rowIndex) => (
+        {filteredData.map((row, rowIndex) => (
           <tr key={rowIndex} className="ctable__row">
-            {columns.map((column) => (
-              <td key={column} className="ctable__cell">
-                {columnRenderers && columnRenderers[column]
-                  ? columnRenderers[column](column, row)
-                  : row[column]}
+            {computedColumns.map((column) => (
+              <td key={column.name} className="ctable__cell">
+                {columnRenderers && columnRenderers[column.name]
+                  ? columnRenderers[column.name](column.name, row)
+                  : row[column.name]}
               </td>
             ))}
           </tr>
